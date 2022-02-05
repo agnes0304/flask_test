@@ -1,0 +1,12 @@
+[
+    {
+        "name" : "jiwoo",
+        "age" : 26,
+        "subject" : [ "math", "english", "spanish"]
+    },
+    {
+        "name" : "jiwon",
+        "age" : 29,
+        "subject" : ["math","english","korean"]
+    }
+]
