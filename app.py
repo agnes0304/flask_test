@@ -9,7 +9,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-with open('student_sample.json') as json_file:
+with open('student_sample.json', 'a') as json_file:
     json_data = json.load(json_file)
 
 
@@ -56,6 +56,7 @@ def update_student(name, id):
     if islist(name):
         idx = find_idx(name)
         json_data[idx]["id"] = id
+        json_data.dump(json_data,json_file)
         return f'ID of {name} is updated to {id}'
     else:
         return "enter another right name and id."
@@ -63,8 +64,10 @@ def update_student(name, id):
 
 @app.route("/student/<name>", methods=["POST"])
 def add_student(name):
-    json_data[len(json_data)-1]["name"] = name
-    json_data[len(json_data)-1]["id"] = random.randrange(0,100)
+    data = {"name": name, "id": random.randrange(0,100)}
+    json_data.write(data)
+    # json_data[len(json_data)-1]["name"] = name
+    # json_data[len(json_data)-1]["id"] = random.randrange(0,100)
     return f'{name} is added in the list'
 
 
