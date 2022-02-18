@@ -84,7 +84,7 @@ def update_student(name, id):
             json_data[idx]["bio"] = bio
     else:
         return "enter another right name and id."
-    # file write 해줘야 함.  
+    # file write.  
 
 
 # name, nickname, bio만 request body에 json으로
@@ -103,12 +103,12 @@ def add_student(name):
     json_data[len(json_data)]["subject"] = []
 
     new_id = random.randint(1,1000)       
-    while isID(new_id):              # a가 이미 뽑은 리스트에 있을 때까지 다시 뽑자
+    while isID(new_id):
         new_id = random.randint(1,10000)
         return new_id    
     json_data[len(json_data)]["id"] = new_id
 
-    # json file 다시 써줘야 함. 
+    # json file 다시 
     
 
 @app.route("/student/<name>/<id>", methods=["DELETE"])
