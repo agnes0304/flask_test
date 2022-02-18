@@ -13,7 +13,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-with open('student_sample.json', 'r+') as json_file:
+with open('student_sample.json', 'r') as json_file:
     json_data = json.load(json_file)
 
 # 바로 close 하는지 확인
@@ -70,6 +70,7 @@ def get_student(name):
 
 
 # update; name and id check
+# subject append 하는 거 추가해야 함
 @app.route("/student/<name>/<id>", methods=["PUT"])
 def update_student(name, id):
     if islist(name):
@@ -84,7 +85,9 @@ def update_student(name, id):
             json_data[idx]["bio"] = bio
     else:
         return "enter another right name and id."
-    # file write.  
+
+    with open("student_sample.json", 'r+') as json_file:
+        json.dumps(json_data, json_file)
 
 
 # name, nickname, bio만 request body에 json으로
@@ -108,7 +111,8 @@ def add_student(name):
         return new_id    
     json_data[len(json_data)]["id"] = new_id
 
-    # json file 다시 
+    with open("student_sample.json", 'r+') as json_file:
+        json.dumps(json_data, json_file)
     
 
 @app.route("/student/<name>/<id>", methods=["DELETE"])
@@ -120,7 +124,8 @@ def delete_student(name, id):
     else:
         return "Enter another name or id."
 
-    # file write 다시
+    with open("student_sample.json", 'r+') as json_file:
+        json.dumps(json_data, json_file)
 
 
 @app.route("/time")
