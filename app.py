@@ -68,7 +68,6 @@ def get_student(name):
     else:
         return f'{name} is not in the list.'
 
-
 # update; name and id check
 # subject append 하는 거 추가해야 함
 @app.route("/student/<name>/<id>", methods=["PUT"])
