@@ -79,6 +79,7 @@ def get_student_by_name(name):
     else:
         return f'{name} is not in the list.'
 
+<<<<<<< HEAD
 
 # get student data by ID
 # 근데 id는 랜덤 생성 되고 있음 -> makeID()
@@ -114,6 +115,24 @@ def update_student(email):
 
     return json.dumps(json_data)
 
+=======
+# update; name and id check
+# subject append 하는 거 추가해야 함
+@app.route("/student/<name>/<id>", methods=["PUT"])
+def update_student(name, id):
+    if islist(name):
+        idx = find_idx(name)
+        if json_data[idx]["id"] == id:
+            body = request.get_json()
+            # nickname&bio, only nickname, only bio 구분?
+            nickname = body["nickname"]
+            bio = body["bio"]
+
+            json_data[idx]["nickname"] = nickname
+            json_data[idx]["bio"] = bio
+    else:
+        return "enter another right name and id."
+>>>>>>> 26a596d2fcd57ac77940050803ff37df60ddebbf
 
 # Path param, Query param
 # dict = map = hashmap = hashtable
