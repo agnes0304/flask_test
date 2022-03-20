@@ -73,18 +73,13 @@ def isName(name):
         return False
 
 def isID(id):
-    json_data = openjson()
-    keys = list(json_data.keys())
-    if id not in keys:
-        return False
-    else:
-        return True
-
-# def find_id(name):
-#     for i in range(len(json_data)):
-#         if name == json_data[i]["name"]:
-#             return json_data[i]["id"]
-
+    return True if id in openjson() else False
+    
+    # keys = list(json_data.keys())
+    # if id not in keys:
+    #     return False
+    # else:
+    #     return True
 
 @app.route("/")
 def Welcome():
