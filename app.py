@@ -11,12 +11,14 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+
 def openjson():
     json_file = open('student_sample.json', 'r')
     json_data = json.load(json_file)
     json_file.close()
+
     return json_data
-# 뒤에 func에서 json_data 사용하려고 
+# 뒤에 func에서 json_data 사용하려고
 # 매번 필요할 때마다 열어주니까 업데이트 되지 않을까(예상)
 
 
@@ -59,6 +61,24 @@ def idByName(name):
     id = keys[name_list.index(name)]
     return id
 
+def isName(name):
+    name_list = list()
+    json_data = openjson()
+    values = list(json_data.values())
+    for i in range(len(json_data)):
+        name_list.append(values[i]["name"])
+    if name in name_list:
+        return True
+    else:
+        return False
+
+def isID(id):
+    json_data = openjson()
+    keys = list(json_data.keys())
+    if id not in keys:
+        return False
+    else:
+        return True
 
 # def find_id(name):
 #     for i in range(len(json_data)):
@@ -70,23 +90,30 @@ def idByName(name):
 def Welcome():
     return "<p>Welcome!</p>"
 
+
 @app.route("/student/<name>", methods=["GET"])
 def get_student_by_name(name):
     json_data = openjson()
-    id = idByName(name)
-    return json_data[id]
+    if isName(name) == False:
+        return f'{name} is not found', 404
+    else:
+        id = idByName(name)
+        return json_data[id]
 
 
 @app.route("/studentID/<name>", methods=["GET"])
 def idByName(name):
-    name_list = list()
-    json_data = openjson()
-    values = list(json_data.values())
-    keys = list(json_data.keys())
-    for i in range(len(json_data)):
-        name_list.append(values[i]["name"])
-    id = keys[name_list.index(name)]
-    return id
+    if isName(name) == False:
+        return f'{name} is not found', 404
+    else: 
+        name_list = list()
+        json_data = openjson()
+        values = list(json_data.values())
+        keys = list(json_data.keys())
+        for i in range(len(json_data)):
+            name_list.append(values[i]["name"])
+        id = keys[name_list.index(name)]
+        return id
 
 
 # get student data by ID
@@ -94,30 +121,35 @@ def idByName(name):
 @app.route("/studentById/<id>", methods=["GET"])
 def get_student_by_id(id):
     json_data = openjson()
-    data = json_data[id]
-    return data
-
+    if isID(id) == True:
+        data = json_data[id]
+        return data
+    else: 
+        return f'{id} is not found', 404
 
 # update student info by ID
 # PUT /student/id알고 있다고 가정
 @app.route("/student/<id>", methods=["PUT"])
 def update_student(id):
-    body = request.get_json()
-    
-    key_list = list(body.keys())
-    
     json_data = openjson()
-    
+    if isID(id) == True:
+
+        body = request.get_json()
+
+        key_list = list(body.keys())
+
 
     # key_list에 있는 key에 해 json_data[id]의 [key]의 [value]를 body[key]의 [value]로 업데이트
-    for i in range(len(key_list)):
-        json_data[id][key_list[i]] = body[key_list[i]]
+        for i in range(len(key_list)):
+            json_data[id][key_list[i]] = body[key_list[i]]
 
-    with open("student_sample.json", 'w') as json_file:
-        json.dump(json_data, json_file)
+        with open("student_sample.json", 'w') as json_file:
+            json.dump(json_data, json_file)
 
-    return json.dumps(json_data)
+        return json.dumps(json_data)
 
+    else: 
+        return f'{id} is not found', 404
 
 # Path param, Query param
 # dict = map = hashmap = hashtable
@@ -131,7 +163,7 @@ def add_student():
     # { "name": "longzero", "age": 26, "email": "longzero@gmail.com"}
 
     id = hashlib.md5(bytes(body["email"], 'utf-8')).hexdigest()
-    
+
     json_data = None
     with open("student_sample.json", 'r') as json_file:
         json_data = json.load(json_file)
@@ -145,15 +177,17 @@ def add_student():
 
 # DELETE
 @app.route("/student/<id>", methods=["DELETE"])
-def delete_student(id): 
-    json_data = openjson()
-    del json_data[id]
-    
-    with open("student_sample.json", 'w') as json_file:
-        json.dump(json_data, json_file)
+def delete_student(id):
+    if isID(id) == True:
+        json_data = openjson()
+        del json_data[id]
 
-    return json.dumps(json_data)  
+        with open("student_sample.json", 'w') as json_file:
+            json.dump(json_data, json_file)
 
+        return json.dumps(json_data)
+    else: 
+        return f'{id} is not found', 404
 
 @app.route("/time")
 def now():
