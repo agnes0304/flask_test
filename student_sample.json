@@ -1,1 +1,17 @@
-{"26e401779948cbdc9a1f0b3d2adaa698": {"name": "agns", "age": 25, "email": "agnes0304@snu.ac.kr"}, "c5a4b87eebdac91756b556907310eb04": {"name": "longzero", "age": 10, "email": "longzero@gmail.com"}, "ffa3e85d4b7673a203ced1e1cc709efb": {"name": "jiwoo", "age": 26, "email": "jiwoochoi0304@gmail.com"}}
+{
+    "26e401779948cbdc9a1f0b3d2adaa698": {
+        "name": "agns",
+        "age": 25,
+        "email": "agnes0304@snu.ac.kr"
+    },
+    "c5a4b87eebdac91756b556907310eb04": {
+        "name": "longzero",
+        "age": 10,
+        "email": "longzero@gmail.com"
+    },
+    "ffa3e85d4b7673a203ced1e1cc709efb": {
+        "name": "jiwoo",
+        "age": 26,
+        "email": "jiwoochoi0304@gmail.com"
+    }
+}
